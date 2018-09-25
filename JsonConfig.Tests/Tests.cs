@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -108,8 +108,8 @@ namespace JsonConfig.Tests
 			dynamic result = Merger.Merge (fruit, vegetables);
 
 			Assert.AreEqual (6, result.Types.Length);
-			Assert.IsInstanceOfType (typeof(ConfigObject), result);
-			Assert.IsInstanceOfType (typeof(ConfigObject[]), result.Types);
+			Assert.IsInstanceOf<ConfigObject>(result);
+			Assert.IsInstanceOf<ConfigObject[]>(result.Types);
 		}
 		[Test]
 		public void ManualDefaultAndUserConfig ()
@@ -119,8 +119,8 @@ namespace JsonConfig.Tests
 			Config.SetUserConfig (parsed.Fruits);
 			Config.SetDefaultConfig (parsed.Vegetables);
 
-			Assert.IsInstanceOfType (typeof(ConfigObject), Config.User);
-			Assert.IsInstanceOfType (typeof(ConfigObject), Config.Default);
+			Assert.IsInstanceOf<ConfigObject>(Config.User);
+			Assert.IsInstanceOf<ConfigObject>(Config.Default);
 
 			dynamic scope = Config.Global;
 			scope = Config.ApplyJson (@"{ Types : [{Type : ""Salad"", PricePerTen : 5 }]}", scope);

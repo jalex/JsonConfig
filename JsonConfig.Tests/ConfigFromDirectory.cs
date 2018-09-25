@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
@@ -11,8 +11,9 @@ namespace JsonConfig.Tests
 	{
 		private string configFolder ()
 		{
-			return Directory.GetCurrentDirectory () + "/../../DirectoryMerge/";
-		}
+			//return Directory.GetCurrentDirectory () + "/../../DirectoryMerge/";
+            return Directory.GetCurrentDirectory() + "/JsonConfig.Tests/DirectoryMerge/";
+        }
 		[Test()]
 		public void AllArraysFoundAndMerged()
 		{

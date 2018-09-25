@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NUnit.Framework;
 
 using JsonConfig;
@@ -29,8 +29,8 @@ namespace JsonConfig.Tests
 
 			dynamic c = ConfigObject.FromExpando (e);
 
-			Assert.IsInstanceOfType (typeof (ConfigObject), c);
-			Assert.IsInstanceOfType (typeof (ConfigObject), c.Nested);
+			Assert.IsInstanceOf<ConfigObject>(c);
+			Assert.IsInstanceOf<ConfigObject>(c.Nested);
 			Assert.AreEqual ("bar", c.Foo);
 			Assert.AreEqual (1, c.X);
 
@@ -52,7 +52,7 @@ namespace JsonConfig.Tests
 			Assert.AreEqual ("bar", ((ICollection<dynamic>) config.NestedArray).First ().Foo);
 			Assert.AreEqual ("bar", config.DoubleNestedArray[0].One[0].Foo);
 
-			Assert.IsInstanceOfType (typeof (ConfigObject[]), config.DoubleNestedArray[0].One);
+			Assert.IsInstanceOf<ConfigObject[]>(config.DoubleNestedArray[0].One);
 			Assert.AreEqual ("bar", config.DoubleNestedArray[0].One[0].Foo);
 			Assert.AreEqual (4, config.DoubleNestedArray[0].One.Length);
 
@@ -70,12 +70,12 @@ namespace JsonConfig.Tests
 
 			var c = ConfigObject.FromExpando (e);
 
-			Assert.IsInstanceOfType (typeof(ConfigObject), c);
+			Assert.IsInstanceOf<ConfigObject>(c);
 
-			Assert.IsInstanceOfType (typeof(string), c.Foo);
+			Assert.IsInstanceOf<string>(c.Foo);
 			Assert.AreEqual ("bar", c.Foo);
 
-			Assert.IsInstanceOfType (typeof(int), c.X);
+			Assert.IsInstanceOf<int>(c.X);
 			Assert.AreEqual (1, c.X);
 		}
 		[Test]

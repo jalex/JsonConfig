@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NUnit.Framework;
 using System.Dynamic;
 
@@ -12,7 +12,7 @@ namespace JsonConfig.Tests
 		{
 			dynamic x = 1;
 			dynamic result = Merger.Merge (null, x);
-			Assert.IsInstanceOfType (typeof(int), result);	
+			Assert.IsInstanceOf<int>(result);	
 			Assert.AreEqual (1, result);
 		}
 		[Test]
@@ -20,14 +20,14 @@ namespace JsonConfig.Tests
 		{
 			dynamic x = 1;
 			dynamic result = Merger.Merge (x, null);
-			Assert.IsInstanceOfType (typeof(int), result);	
+			Assert.IsInstanceOf<int>(result);	
 			Assert.AreEqual (1, result);
 		}
 		[Test]
 		public void BothObjectsAreNull ()
 		{
 			dynamic result = JsonConfig.Merger.Merge (null, null);
-			Assert.IsInstanceOfType (typeof(ConfigObject), result);
+			Assert.IsInstanceOf<ConfigObject>(result);
 		}
 		[Test]
 		public void CastToConfigObject ()
@@ -38,19 +38,20 @@ namespace JsonConfig.Tests
 
 			dynamic c = ConfigObject.FromExpando (e);
 
-			Assert.IsInstanceOfType (typeof(ConfigObject), c);
+			Assert.IsInstanceOf<ConfigObject>(c);
 			Assert.AreEqual ("bar", c.Foo);
 			Assert.AreEqual (1, c.X);
 		}
 		[Test]
-		[ExpectedException(typeof(JsonConfig.TypeMissmatchException))]
 		public void TypesAreDifferent ()
 		{
-			dynamic x = "somestring";
-			dynamic y = 1;
-			dynamic result = JsonConfig.Merger.Merge (x, y);
-			// avoid result is assigned but never used warning
-			Assert.AreEqual (0, result);
+            Assert.Throws<JsonConfig.TypeMissmatchException>(() => {
+                dynamic x = "somestring";
+                dynamic y = 1;
+                dynamic result = JsonConfig.Merger.Merge(x, y);
+                // avoid result is assigned but never used warning
+                Assert.AreEqual(0, result);
+            });
 		}
 		[Test]
 		/// <summary>
@@ -65,12 +66,12 @@ namespace JsonConfig.Tests
 
 			// merge left
 			merged = Merger.Merge (c, n);
-			Assert.IsInstanceOfType (typeof(ConfigObject), merged);
+			Assert.IsInstanceOf<ConfigObject>(merged);
 			Assert.That (merged.Sample == "Foobar");
 
 			// merge right
 			merged = Merger.Merge (n, c);
-			Assert.IsInstanceOfType (typeof(ConfigObject), merged);
+			Assert.IsInstanceOf<ConfigObject>(merged);
 			Assert.That (merged.Sample == "Foobar");
 		}
 		[Test]
@@ -79,7 +80,7 @@ namespace JsonConfig.Tests
 			var n1 = new NullExceptionPreventer ();
 			var n2 = new NullExceptionPreventer ();
 			dynamic merged = Merger.Merge (n1, n2);
-			Assert.IsInstanceOfType (typeof(ConfigObject), merged);
+			Assert.IsInstanceOf<ConfigObject>(merged);
 		}
 		[Test]
 		public void MergeEmptyExpandoObject ()
@@ -90,10 +91,10 @@ namespace JsonConfig.Tests
 			e.Foo = "Bar";
 			e.X = 1;
 			dynamic merged = Merger.Merge (e, new ExpandoObject ());
-			Assert.IsInstanceOfType (typeof(ConfigObject), merged);
+			Assert.IsInstanceOf<ConfigObject>(merged);
 
-			Assert.IsInstanceOfType (typeof(int), merged.X);
-			Assert.IsInstanceOfType (typeof(string), merged.Foo);
+			Assert.IsInstanceOf<int>(merged.X);
+			Assert.IsInstanceOf<string>(merged.Foo);
 
 			Assert.AreEqual ("Bar", merged.Foo);
 			Assert.AreEqual (1, merged.X);
@@ -106,7 +107,7 @@ namespace JsonConfig.Tests
 			c1.Foo = "bar";
 			c2.Bla = "blubb";
 			dynamic merged = Merger.Merge (c1, c2);
-			Assert.IsInstanceOfType (typeof(ConfigObject), merged);
+			Assert.IsInstanceOf<ConfigObject>(merged);
 			Assert.AreEqual ("bar", merged.Foo);
 			Assert.AreEqual ("blubb", merged.Bla);
 		}
@@ -120,7 +121,7 @@ namespace JsonConfig.Tests
 			c1.X = 1;
 			dynamic merged = Merger.Merge (c1, c2);
 
-			Assert.IsInstanceOfType (typeof(ConfigObject), merged);
+			Assert.IsInstanceOf<ConfigObject>(merged);
 			Assert.AreEqual ("bar", c1.Foo);
 			Assert.AreEqual (1, c1.X);
 		}

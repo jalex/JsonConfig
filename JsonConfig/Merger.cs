@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (C) 2012 Timo Dörr
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -27,10 +27,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
-namespace JsonConfig
-{
-    public static class Merger
-    {
+namespace JsonConfig {
+
+    public static class Merger {
+
         /// <summary>
         ///     Merge the specified obj2 and obj1, where obj1 has precedence and
         ///     overrules obj2 if necessary.
@@ -38,20 +38,18 @@ namespace JsonConfig
         /// <exception cref='TypeMissmatchException'>
         ///     Is thrown when the type mismatch exception.
         /// </exception>
-        public static dynamic Merge(dynamic mObj1, dynamic mObj2)
-        {
+        public static dynamic Merge(dynamic mObj1, dynamic mObj2) {
             var obj1 = mObj1;
             var obj2 = mObj2;
 
             // make sure we only deal with ConfigObject but not ExpandoObject as currently
             // return from JsonFX
-            if (obj1 is ExpandoObject) obj1 = ConfigObject.FromExpando(obj1);
-            if (obj2 is ExpandoObject) obj2 = ConfigObject.FromExpando(obj2);
+            if(obj1 is ExpandoObject) obj1 = ConfigObject.FromExpando(obj1);
+            if(obj2 is ExpandoObject) obj2 = ConfigObject.FromExpando(obj2);
 
             // if both objects are NullExceptionPreventer, return a ConfigObject so the
             // user gets an "Empty" ConfigObject
-            switch (obj1)
-            {
+            switch(obj1) {
                 case NullExceptionPreventer _ when obj2 is NullExceptionPreventer:
                     return new ConfigObject();
                 case NullExceptionPreventer _ when obj2 is ConfigObject:
@@ -59,40 +57,35 @@ namespace JsonConfig
             }
 
             // if any object is of NullExceptionPreventer, the other object gets precedence / overruling
-            if (obj2 is NullExceptionPreventer && obj1 is ConfigObject)
-                return obj1;
+            if(obj2 is NullExceptionPreventer && obj1 is ConfigObject) return obj1;
 
             // handle what happens if one of the args is null
-            if (obj1 == null && obj2 == null)
-                return new ConfigObject();
+            if(obj1 == null && obj2 == null) return new ConfigObject();
 
-            if (obj2 == null) return obj1;
-            if (obj1 == null) return obj2;
+            if(obj2 == null) return obj1;
+            if(obj1 == null) return obj2;
 
-            if (obj1.GetType() != obj2.GetType())
-                throw new TypeMissmatchException();
+            if(obj1.GetType() != obj2.GetType()) throw new TypeMissmatchException();
 
             // changes in the dictionary WILL REFLECT back to the object
-            var dict1 = (IDictionary<string, object>) obj1;
-            var dict2 = (IDictionary<string, object>) obj2;
+            var dict1 = (IDictionary<string, object>)obj1;
+            var dict2 = (IDictionary<string, object>)obj2;
 
             dynamic result = new ConfigObject();
-            var rdict = (IDictionary<string, object>) result;
+            var rdict = (IDictionary<string, object>)result;
 
             // first, copy all non colliding keys over
-            foreach (var kvp in dict1)
-                if (!dict2.Keys.Contains(kvp.Key))
-                    rdict.Add(kvp.Key, kvp.Value);
-            foreach (var kvp in dict2)
-                if (!dict1.Keys.Contains(kvp.Key))
-                    rdict.Add(kvp.Key, kvp.Value);
+            foreach(var kvp in dict1) {
+                if(!dict2.Keys.Contains(kvp.Key)) rdict.Add(kvp.Key, kvp.Value);
+            }
+            foreach(var kvp in dict2) {
+                if(!dict1.Keys.Contains(kvp.Key)) rdict.Add(kvp.Key, kvp.Value);
+            }
 
             // now handle the colliding keys	
-            foreach (var kvp1 in dict1)
-            {
+            foreach(var kvp1 in dict1) {
                 // skip already copied over keys
-                if (!dict2.Keys.Contains(kvp1.Key) || dict2[kvp1.Key] == null)
-                    continue;
+                if(!dict2.Keys.Contains(kvp1.Key) || dict2[kvp1.Key] == null) continue;
 
                 var kvp2 = new KeyValuePair<string, object>(kvp1.Key, dict2[kvp1.Key]);
 
@@ -104,11 +97,9 @@ namespace JsonConfig
                 var type2 = value1.GetType();
 
                 // check if both are same type
-                if (type1 != type2)
-                    throw new TypeMissmatchException();
+                if(type1 != type2) throw new TypeMissmatchException();
 
-                switch (value1)
-                {
+                switch(value1) {
                     case ConfigObject[] _:
                         rdict[key] = CollectionMerge(value1, value2);
                         break;
@@ -143,10 +134,8 @@ namespace JsonConfig
         /// <param name='objects'>
         ///     List of objects which are to be merged.
         /// </param>
-        public static dynamic MergeMultiple(params object[] objects)
-        {
-            switch (objects.Length)
-            {
+        public static dynamic MergeMultiple(params object[] objects) {
+            switch(objects.Length) {
                 case 1:
                     return objects[0];
                 case 2:
@@ -159,8 +148,7 @@ namespace JsonConfig
             return Merge(head, MergeMultiple(tail));
         }
 
-        public static dynamic CollectionMerge(dynamic obj1, dynamic obj2)
-        {
+        public static dynamic CollectionMerge(dynamic obj1, dynamic obj2) {
             var x = new ArrayList();
             x.AddRange(obj1);
             x.AddRange(obj2);
@@ -173,7 +161,6 @@ namespace JsonConfig
     /// <summary>
     ///     Get thrown if two types do not match and can't be merges
     /// </summary>
-    public class TypeMissmatchException : Exception
-    {
+    public class TypeMissmatchException : Exception {
     }
 }

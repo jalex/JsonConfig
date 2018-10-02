@@ -1,16 +1,16 @@
-# Comments can be placed when a line starts with (whitespace +) 
+// Comments can be placed when a line starts with (whitespace +) 
 {
 	
 	"Default" : "arrays",
 
-	# This is a comment
+	// This is a comment
 	"Fruit1":
 	{
 		"Fruit"	:	["apple", "banana", "melon"]
 	},
 	"Fruit2":
 	{
-		# This too is a comment
+		// This too is a comment
 		"Fruit"	:	["apple", "cherry", "coconut"]
 	},
 	"EmptyFruit":

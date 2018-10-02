@@ -11,10 +11,12 @@ obj/
 test-results/
 packages/
 *.suo
+*.user
 
 # OS X files
 .DS_Store
 .AppleDouble
+/.vs
 /.vs/JsonConfig/v15/sqlite3
 /.vs/JsonConfig/v15/Server/sqlite3
 /.tmp/Nuke.MSBuildLocator

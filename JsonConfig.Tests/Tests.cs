@@ -111,21 +111,21 @@ namespace JsonConfig.Tests
 			Assert.IsInstanceOf<ConfigObject>(result);
 			Assert.IsInstanceOf<ConfigObject[]>(result.Types);
 		}
-		[Test]
-		public void ManualDefaultAndUserConfig ()
-		{
-			dynamic parsed = GetUUT ("Foods");
+		//[Test]
+		//public void ManualDefaultAndUserConfig ()
+		//{
+		//	dynamic parsed = GetUUT ("Foods");
 
-			Config.SetUserConfig (parsed.Fruits);
-			Config.SetDefaultConfig (parsed.Vegetables);
+		//	Config.SetUserConfig (parsed.Fruits);
+		//	Config.SetDefaultConfig (parsed.Vegetables);
 
-			Assert.IsInstanceOf<ConfigObject>(Config.User);
-			Assert.IsInstanceOf<ConfigObject>(Config.Default);
+		//	Assert.IsInstanceOf<ConfigObject>(Config.User);
+		//	Assert.IsInstanceOf<ConfigObject>(Config.Default);
 
-			dynamic scope = Config.Global;
-			scope = Config.ApplyJson (@"{ Types : [{Type : ""Salad"", PricePerTen : 5 }]}", scope);
-			Assert.AreEqual (7, scope.Types.Length);
-		}
+		//	dynamic scope = Config.Global;
+		//	scope = Config.ApplyJson (@"{ Types : [{Type : ""Salad"", PricePerTen : 5 }]}", scope);
+		//	Assert.AreEqual (7, scope.Types.Length);
+		//}
 		[Test]
 		public void EnabledModulesTest ()
 		{
@@ -148,14 +148,14 @@ namespace JsonConfig.Tests
 			Assert.That (!modules_object.NonExistantModule == true);
 			Assert.That (modules_object.NonExistantModule.Nested.Field.That.Doesnt.Exist == false);
 		}
-		[Test]
-		public void CurrentScopeTest ()
-		{
-			dynamic c = Config.GetCurrentScope ();
-			c.ApplyJson (@"{ Foo : 1, Bar: ""blubb"" }");
-			Assert.AreEqual (1, c.Foo);
-			Assert.AreEqual ("blubb", c.Bar);
+		//[Test]
+		//public void CurrentScopeTest ()
+		//{
+		//	dynamic c = Config.GetCurrentScope ();
+		//	c.ApplyJson (@"{ Foo : 1, Bar: ""blubb"" }");
+		//	Assert.AreEqual (1, c.Foo);
+		//	Assert.AreEqual ("blubb", c.Bar);
 
-		}
+		//}
 	}
 }

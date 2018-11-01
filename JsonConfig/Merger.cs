@@ -85,7 +85,7 @@ namespace JsonConfig {
             // now handle the colliding keys	
             foreach(var kvp1 in dict1) {
                 // skip already copied over keys
-                if(!dict2.Keys.Contains(kvp1.Key) || dict2[kvp1.Key] == null) continue;
+                if(!dict2.Keys.Contains(kvp1.Key) /*|| dict2[kvp1.Key] == null*/) continue;
 
                 var kvp2 = new KeyValuePair<string, object>(kvp1.Key, dict2[kvp1.Key]);
 
